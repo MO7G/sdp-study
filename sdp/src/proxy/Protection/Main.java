@@ -1,50 +1,55 @@
-package proxy.Protection;
+package proxy.Protection;// ProtectionProxyExample.java
 
-// Step 1: Define a common interface
-interface ISensitiveDataAccess {
-    void accessData(String userRole);
+// Step 1: Define the Subject Interface
+interface Service {
+    void performAction();
 }
 
-// Step 2: The Real Subject
-class SensitiveData implements ISensitiveDataAccess {
+// Step 2: Implement the RealService (Actual Service)
+class RealService implements Service {
     @Override
-    public void accessData(String userRole) {
-        System.out.println("Accessing sensitive data...");
+    public void performAction() {
+        System.out.println("Real service is performing a sensitive action!");
     }
 }
 
-// Step 3: The Proxy
-class SensitiveDataProxy implements ISensitiveDataAccess {
-    private SensitiveData realSensitiveData;
+// Step 3: Implement the Proxy Class (Protection Proxy)
+class ProxyService implements Service {
+    private RealService realService;
+    private String userRole;
 
-    public SensitiveDataProxy() {
-        // Lazy initialization of the real object
-        this.realSensitiveData = new SensitiveData();
+    // Constructor takes the user role to simulate access control
+    public ProxyService(String userRole) {
+        this.userRole = userRole;
     }
 
     @Override
-    public void accessData(String userRole) {
-        // Protection logic
-        if ("ADMIN".equalsIgnoreCase(userRole)) {
-            realSensitiveData.accessData(userRole);
-            System.out.println("Access granted to ADMIN.");
+    public void performAction() {
+        if (userRole.equals("admin")) {
+            // Only allow access if the user is an admin
+            if (realService == null) {
+                realService = new RealService();
+            }
+            realService.performAction(); // Forward the call to the real service
         } else {
-            System.out.println("Access denied! Only admins are allowed to access this data.");
+            System.out.println("Access Denied: You do not have permission to perform this action.");
         }
     }
 }
 
-// Step 4: Client Code
+// Step 4: Using the Proxy in Client Code
 public class Main {
     public static void main(String[] args) {
-        ISensitiveDataAccess proxy = new SensitiveDataProxy();
+        // Create proxy with different roles
+        Service adminService = new ProxyService("admin");
+        Service userService = new ProxyService("user");
 
-        // Access as a regular user
-        System.out.println("Trying to access as a USER:");
-        proxy.accessData("USER");
+        // Test with admin role - should be allowed
+        System.out.println("Testing with admin:");
+        adminService.performAction();  // Should call RealService
 
-        // Access as an admin
-        System.out.println("\nTrying to access as an ADMIN:");
-        proxy.accessData("ADMIN");
+        // Test with user role - should be denied
+        System.out.println("\nTesting with user:");
+        userService.performAction();   // Should deny access
     }
 }

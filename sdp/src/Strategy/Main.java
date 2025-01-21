@@ -41,6 +41,39 @@ class CarContext {
     }
 }
 
+class class2{
+
+}
+class class3{
+
+    Integer x ;
+    void setX(int x){
+        this.x = x;
+    }
+}
+class class1{
+    Integer x  =23;
+    void doStuff(class2 c2){
+      // use c2 for something
+    }
+
+    Integer getX(){
+        return this.x;
+    }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
 // Main Function
 public class Main {
     public static void main(String[] args) {

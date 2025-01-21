@@ -194,7 +194,7 @@ public class Main{
         remoteControl.setCommand(0, tvOn, tvOff);
         remoteControl.setCommand(1, lightBulbOn, lightBulbOff);
         remoteControl.setCommand(2, airConditionerOn, airConditionerOff);
-        remoteControl.setCommand(3, airConditionerOn, airConditionerOff);
+       // remoteControl.setCommand(3, airConditionerOn, airConditionerOff);
 
         // TV is turned on
         remoteControl.onButtonWasPushed(0);

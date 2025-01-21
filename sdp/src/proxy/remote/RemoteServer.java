@@ -25,6 +25,8 @@ class Adder extends UnicastRemoteObject implements IRemote {
     }
 }
 
+
+
 // The Server Class
 public class RemoteServer {
     public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
